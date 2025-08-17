@@ -71,8 +71,7 @@ zyxel-ua/
 │
 ├── server/                  # Python backend server
 │   ├── captive_portal_server.py  # Main Python server
-│   ├── run_server.bat           # Windows batch file to start server
-│   └── config.js               # JavaScript configuration
+│   └── run_server.bat           # Windows batch file to start server
 │
 ├── Portal Pages (uploaded to Zyxel):
 │   ├── ua_agree.html        # Desktop agreement page
