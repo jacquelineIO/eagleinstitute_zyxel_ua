@@ -63,7 +63,7 @@ captive_portal.zip
 ├── ua_welcome.html
 ├── ua_welcome_m.html
 ├── ua.css
-├── script_python.js
+├── script.js
 ├── css_m/
 │   └── *.css
 ├── images/
@@ -78,7 +78,7 @@ captive_portal.zip
 zip -r captive_portal.zip \
   ua_agree.html ua_agree_m.html \
   ua_welcome.html ua_welcome_m.html \
-  ua.css script_python.js \
+  ua.css script.js \
   css_m/ images/ images_m/ \
   -x "*.DS_Store" -x "__MACOSX"
 ```
@@ -225,7 +225,7 @@ rm -f captive_portal.zip
 zip -r captive_portal.zip \
   ua_agree.html ua_agree_m.html \
   ua_welcome.html ua_welcome_m.html \
-  ua.css script_python.js \
+  ua.css script.js \
   css_m/ images/ images_m/ \
   -x "*.DS_Store" -x "__MACOSX" -x "Thumbs.db"
 

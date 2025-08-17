@@ -67,7 +67,6 @@ This application provides a captive portal page for guest WiFi users. When guest
 zyxel-ua/
 ├── README.md                 # This file
 ├── CLAUDE.md                # AI assistant documentation
-├── package.json             # Node.js dependencies (legacy)
 ├── .gitignore              # Git ignore rules
 │
 ├── server/                  # Python backend server
@@ -80,17 +79,13 @@ zyxel-ua/
 │   ├── ua_agree_m.html      # Mobile agreement page
 │   ├── ua_welcome.html      # Desktop success page
 │   ├── ua_welcome_m.html    # Mobile success page
-│   ├── script_python.js     # JavaScript for Python backend
+│   ├── script.js           # JavaScript for Python backend
 │   ├── ua.css              # Desktop styles
 │   └── css_m/              # Mobile styles
 │
-├── Assets:
-│   ├── images/             # Desktop images
-│   └── images_m/           # Mobile images
-│
-└── Legacy Node.js (deprecated):
-    ├── server.js           # Original Node.js server
-    └── script.js           # Original JavaScript
+└── Assets:
+    ├── images/             # Desktop images
+    └── images_m/           # Mobile images
 
 ```
 
@@ -252,13 +247,11 @@ zyxel-ua/
 ### Zyxel USG Flex 200 Configuration
 
 1. **Prepare portal files for upload**:
-   - Update `script_python.js` with your server IP:
+   - Verify server IP in `script.js` (auto-detects localhost vs production):
      ```javascript
-     const PYTHON_SERVER_URL = 'http://192.168.50.19:8080/append';
-     ```
-   - In HTML files, change script reference:
-     ```html
-     <script src="script_python.js"></script>
+     const PYTHON_SERVER_URL = isLocal 
+       ? 'http://localhost:8080/append'
+       : 'http://192.168.50.19:8080/append';
      ```
 
 2. **Create ZIP package**:
@@ -320,7 +313,7 @@ python3 -m http.server 8000
 
 #### Configure for Localhost
 
-Edit `script_python.js` and change:
+The `script.js` file automatically detects the environment:
 ```javascript
 // Production setting
 const PYTHON_SERVER_URL = 'http://192.168.50.19:8080/append';
@@ -432,7 +425,7 @@ icacls C:\export /grant Everyone:F
    ```cmd
    netsh advfirewall firewall add rule name="Captive Portal" dir=in action=allow protocol=TCP localport=8080
    ```
-3. **Wrong IP in JavaScript**: Verify server IP in script_python.js
+3. **Wrong IP in JavaScript**: Verify server IP in script.js (should auto-detect)
 
 ### Issue 3: CORS errors in browser console
 

@@ -22,11 +22,6 @@ cd server
 python3 captive_portal_server.py
 ```
 
-### Node.js Server (Legacy/Testing)
-```bash
-npm install
-npm start  # Runs on port 3000
-```
 
 ## Architecture
 
@@ -50,9 +45,7 @@ npm start  # Runs on port 3000
 - **Desktop**: `ua_agree.html` → `ua_welcome.html`
 - **Mobile**: `ua_agree_m.html` → `ua_welcome_m.html`
 - **JavaScript**: 
-  - `script_python.js` - For Python backend integration
-  - `script.js` - Legacy Node.js integration
-- **Configuration**: Update `PYTHON_SERVER_URL` in script_python.js
+  - `script.js` - Frontend integration with Python backend (auto-detects environment)
 
 ### Deployment Flow
 1. Guest connects to WiFi with password
@@ -89,6 +82,5 @@ python3 -m http.server 8000
 ```
 
 ### Important Files to Modify
-- `script_python.js`: Update `PYTHON_SERVER_URL` for server IP
-- `captive_portal_server.py`: Update `CSV_FILE_PATH` for export location
-- HTML files: Change script src from `script.js` to `script_python.js`
+- `script.js`: Auto-detects environment (localhost vs production IP)
+- `captive_portal_server.py`: Auto-detects platform for CSV path (Mac vs Windows)

@@ -45,22 +45,14 @@ def main():
     print("Captive Portal Local Development Server")
     print("=" * 50)
     
-    # Check if script_python.js is configured for localhost
-    with open('script_python.js', 'r') as f:
+    # Check if script.js is configured for localhost (should auto-detect now)
+    with open('script.js', 'r') as f:
         content = f.read()
-        if '192.168.50.19' in content:
-            print("\n⚠️  WARNING: script_python.js is configured for production!")
-            print("The PYTHON_SERVER_URL is set to 192.168.50.19")
-            response = input("Do you want to temporarily update it to localhost? (y/n): ")
-            if response.lower() == 'y':
-                # Backup original
-                with open('script_python.js.backup', 'w') as backup:
-                    backup.write(content)
-                # Update to localhost
-                new_content = content.replace('http://192.168.50.19:8080', 'http://localhost:8080')
-                with open('script_python.js', 'w') as f:
-                    f.write(new_content)
-                print("✅ Updated to localhost (backup saved as script_python.js.backup)")
+        if 'isLocal' not in content:
+            print("\n⚠️  WARNING: script.js doesn't have auto-detection!")
+            print("Please ensure you're using the updated script.js with environment detection")
+        else:
+            print("✅ script.js has auto-detection enabled")
     
     # Set up signal handler for clean shutdown
     signal.signal(signal.SIGINT, signal_handler)
@@ -98,14 +90,7 @@ def main():
             time.sleep(1)
     except KeyboardInterrupt:
         print("\nShutting down...")
-        # Restore original script_python.js if backed up
-        if os.path.exists('script_python.js.backup'):
-            with open('script_python.js.backup', 'r') as backup:
-                content = backup.read()
-            with open('script_python.js', 'w') as f:
-                f.write(content)
-            os.remove('script_python.js.backup')
-            print("✅ Restored original script_python.js")
+        print("✅ Clean shutdown completed")
 
 if __name__ == '__main__':
     main()
