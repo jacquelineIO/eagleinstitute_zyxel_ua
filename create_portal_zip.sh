@@ -24,9 +24,7 @@ missing_files=""
 
 required_files=(
     "ua_agree.html"
-    "ua_agree_m.html" 
     "ua_welcome.html"
-    "ua_welcome_m.html"
     "script.js"
     "ua.css"
 )
@@ -61,7 +59,7 @@ echo "✅ All required files found"
 echo
 echo "📦 Creating ZIP file..."
 echo "Including:"
-echo "- HTML files (ua_agree.html, ua_agree_m.html, ua_welcome.html, ua_welcome_m.html)"
+echo "- HTML files (ua_agree.html, ua_welcome.html)"
 echo "- JavaScript (script.js)"
 echo "- CSS files (ua.css, css_m/)"
 echo "- Images (images/, images_m/)"
@@ -71,9 +69,7 @@ echo
 # Use zip command (available on macOS and most Linux)
 zip -r zyxel_captive_portal.zip \
     ua_agree.html \
-    ua_agree_m.html \
     ua_welcome.html \
-    ua_welcome_m.html \
     script.js \
     ua.css \
     css_m/ \

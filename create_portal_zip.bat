@@ -23,9 +23,7 @@ echo Checking required files...
 set "missing_files="
 
 if not exist "ua_agree.html" set "missing_files=%missing_files% ua_agree.html"
-if not exist "ua_agree_m.html" set "missing_files=%missing_files% ua_agree_m.html"
 if not exist "ua_welcome.html" set "missing_files=%missing_files% ua_welcome.html"
-if not exist "ua_welcome_m.html" set "missing_files=%missing_files% ua_welcome_m.html"
 if not exist "script.js" set "missing_files=%missing_files% script.js"
 if not exist "ua.css" set "missing_files=%missing_files% ua.css"
 if not exist "css_m" set "missing_files=%missing_files% css_m/"
@@ -45,7 +43,7 @@ echo ✅ All required files found
 echo.
 echo Creating ZIP file...
 echo Including:
-echo - HTML files (ua_agree.html, ua_agree_m.html, ua_welcome.html, ua_welcome_m.html)
+echo - HTML files (ua_agree.html, ua_welcome.html)
 echo - JavaScript (script.js)
 echo - CSS files (ua.css, css_m/)
 echo - Images (images/, images_m/)
@@ -53,7 +51,7 @@ echo - JavaScript libraries (js/)
 echo.
 
 :: Use PowerShell to create ZIP (Windows 10/11 built-in)
-powershell -command "Compress-Archive -Path 'ua_agree.html','ua_agree_m.html','ua_welcome.html','ua_welcome_m.html','script.js','ua.css','css_m','images','images_m','js' -DestinationPath 'zyxel_captive_portal.zip' -Force"
+powershell -command "Compress-Archive -Path 'ua_agree.html','ua_welcome.html','script.js','ua.css','css_m','images','images_m','js' -DestinationPath 'zyxel_captive_portal.zip' -Force"
 
 if %errorlevel% neq 0 (
     echo ERROR: Failed to create ZIP file

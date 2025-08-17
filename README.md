@@ -25,9 +25,8 @@ This application provides a captive portal page for guest WiFi users. When guest
 │                                                  │
 │  ┌───────────────────────────────────────┐      │
 │  │   Captive Portal (HTML/CSS/JS)        │      │
-│  │   - ua_agree.html (desktop)           │      │
-│  │   - ua_agree_m.html (mobile)          │      │
-│  │   - ua_welcome.html (success pages)   │      │
+│  │   - ua_agree.html (agreement page)     │      │
+│  │   - ua_welcome.html (success page)    │      │
 │  └───────────────┬───────────────────────┘      │
 └──────────────────┼──────────────────────────────┘
                    │ HTTP POST to :8080/append
@@ -74,13 +73,11 @@ zyxel-ua/
 │   └── run_server.bat           # Windows batch file to start server
 │
 ├── Portal Pages (uploaded to Zyxel):
-│   ├── ua_agree.html        # Desktop agreement page
-│   ├── ua_agree_m.html      # Mobile agreement page
-│   ├── ua_welcome.html      # Desktop success page
-│   ├── ua_welcome_m.html    # Mobile success page
+│   ├── ua_agree.html        # Agreement page (responsive)
+│   ├── ua_welcome.html      # Success page
 │   ├── script.js           # JavaScript for Python backend
-│   ├── ua.css              # Desktop styles
-│   └── css_m/              # Mobile styles
+│   ├── ua.css              # Main styles
+│   └── css_m/              # Mobile styles (for responsive design)
 │
 └── Assets:
     ├── images/             # Desktop images
@@ -325,8 +322,7 @@ const PYTHON_SERVER_URL = 'http://localhost:8080/append';
 #### Access the Application
 
 Open your browser to:
-- Desktop version: http://localhost:8000/ua_agree.html
-- Mobile version: http://localhost:8000/ua_agree_m.html
+- Portal page: http://localhost:8000/ua_agree.html
 - API health check: http://localhost:8080/health
 
 ### Testing the Complete Flow

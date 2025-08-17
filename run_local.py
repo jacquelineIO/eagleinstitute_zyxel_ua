@@ -81,7 +81,6 @@ def main():
     print(f"📄 HTML Server: http://localhost:{HTML_PORT}")
     print(f"🔧 API Server:  http://localhost:{API_PORT}")
     print(f"📧 Portal Page: http://localhost:{HTML_PORT}/ua_agree.html")
-    print(f"📱 Mobile Page: http://localhost:{HTML_PORT}/ua_agree_m.html")
     print("\nPress Ctrl+C to stop all servers")
     print("=" * 50 + "\n")
 

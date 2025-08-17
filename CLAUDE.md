@@ -42,8 +42,7 @@ python3 captive_portal_server.py
 - Cross-platform support (Windows/Mac/Linux)
 
 ### Frontend Components
-- **Desktop**: `ua_agree.html` → `ua_welcome.html`
-- **Mobile**: `ua_agree_m.html` → `ua_welcome_m.html`
+- **Portal Flow**: `ua_agree.html` → `ua_welcome.html`
 - **JavaScript**: 
   - `script.js` - Frontend integration with Python backend (auto-detects environment)
 
