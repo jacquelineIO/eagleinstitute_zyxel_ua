@@ -7,9 +7,21 @@
 <link id="ua_image_id" rel="shortcut icon" href="images/logo.ico" type="image/x-icon">
 <link id="ua_css_id" rel="stylesheet" media="all" type="text/css" href="ua.css?v=241116020708">
 <script language="JavaScript">
+	// For local testing, check if variables are replaced
 	var mp_idx = "$M";
 	var path = "$Z";
 	var en_data_collect = "$D";
+	
+	// Local testing fallback - if $Z is not replaced, use empty string
+	if (path === "$Z") {
+		path = "";
+	}
+	if (mp_idx === "$M") {
+		mp_idx = "";
+	}
+	if (en_data_collect === "$D") {
+		en_data_collect = "";
+	}
 	var url = window.location;
 	/* Please do not rewrite this function */
 	function css_rewrite(){
@@ -147,7 +159,7 @@
                     </div>
                 </div>
             </div>
-            <input id="submitButton" type="submit" class="submit-button" value="Accept and Connect" onclick="sendSubmit();">
+            <input id="submitButton" type="submit" class="submit-button" value="Accept and Connect">
         </form>
     </div>
 </section>
@@ -159,7 +171,7 @@
     $(this).parent().find('.terms-accordion-content').slideToggle(280);
     });
 </script>
-<script src="script.js"></script>
+<script src="script_python.js"></script>
 <div id="uamask" class="uamask"></div>
 </body>
 </html>

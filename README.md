@@ -273,44 +273,89 @@ zyxel-ua/
 
 ## Running Locally for Testing
 
-### On Windows
+### Quick Start (All Platforms)
 
-1. **Install Python** (if not already installed)
+We provide convenient scripts to run both servers together:
 
-2. **Modify server path** in `captive_portal_server.py`:
-   ```python
-   CSV_FILE_PATH = r'.\export\export.csv'  # Local path
-   ```
+**Windows:**
+```cmd
+run_local.bat
+```
 
-3. **Run the server**:
-   ```cmd
-   cd server
-   python captive_portal_server.py
-   ```
+**macOS/Linux:**
+```bash
+python3 run_local.py
+```
 
-4. **Test with browser**:
-   - Open `ua_agree.html` in browser
-   - Update JavaScript to point to localhost:
-     ```javascript
-     const PYTHON_SERVER_URL = 'http://localhost:8080/append';
-     ```
+This will:
+- Start the Python API server on port 8080
+- Start an HTML server on port 8000
+- Automatically open your browser to the portal page
+- Handle localhost configuration automatically
 
-### On macOS
+### Manual Setup (Two Terminal Windows)
 
-1. **Install Python 3** (usually pre-installed):
+#### Terminal 1: Start Python API Server
+
+**Windows:**
+```cmd
+cd server
+python captive_portal_server.py
+```
+
+**macOS/Linux:**
+```bash
+cd server
+python3 captive_portal_server.py
+```
+
+#### Terminal 2: Serve HTML Files
+
+**All Platforms:**
+```bash
+# From the main ua directory
+python3 -m http.server 8000
+# Or for Python 2: python -m SimpleHTTPServer 8000
+```
+
+#### Configure for Localhost
+
+Edit `script_python.js` and change:
+```javascript
+// Production setting
+const PYTHON_SERVER_URL = 'http://192.168.50.19:8080/append';
+
+// Change to localhost for testing
+const PYTHON_SERVER_URL = 'http://localhost:8080/append';
+```
+
+#### Access the Application
+
+Open your browser to:
+- Desktop version: http://localhost:8000/ua_agree.html
+- Mobile version: http://localhost:8000/ua_agree_m.html
+- API health check: http://localhost:8080/health
+
+### Testing the Complete Flow
+
+1. **Start both servers** (using run_local script or manually)
+
+2. **Open the portal page** in your browser
+
+3. **Fill in an email address** and submit
+
+4. **Check the CSV file** was created:
    ```bash
-   python3 --version
+   # macOS/Linux
+   cat export/export.csv
+   
+   # Windows
+   type export\export.csv
    ```
 
-2. **Run the server**:
+5. **Verify the API directly**:
    ```bash
-   cd server
-   python3 captive_portal_server.py
-   ```
-
-3. **Test the endpoints**:
-   ```bash
-   # Check server health
+   # Test health endpoint
    curl http://localhost:8080/health
    
    # Submit test email
@@ -319,12 +364,28 @@ zyxel-ua/
      -d '{"field1":"test@example.com"}'
    ```
 
-4. **Open HTML locally**:
-   ```bash
-   # Start a simple HTTP server for HTML files
-   python3 -m http.server 8000
-   # Open browser to http://localhost:8000/ua_agree.html
-   ```
+### Development Tips
+
+1. **Browser Console**: Open Developer Tools (F12) to see any JavaScript errors
+
+2. **Network Tab**: Check if requests to the Python server are successful
+
+3. **Server Logs**: Both servers will output logs to the terminal
+
+4. **Clear Cache**: Use Ctrl+F5 to force refresh if changes aren't showing
+
+5. **CORS Issues**: The Python server includes CORS headers, but if you still have issues, try:
+   - Using Chrome with `--disable-web-security` flag (development only!)
+   - Or use Firefox which is generally more permissive for localhost
+
+### File Locations During Testing
+
+| File | Purpose | Location |
+|------|---------|----------|
+| CSV Output | Email data | `./export/export.csv` (local) or `C:\export\export.csv` (production) |
+| Python Server | API backend | `http://localhost:8080` |
+| HTML Server | Serves portal pages | `http://localhost:8000` |
+| Portal Page | User-facing form | `http://localhost:8000/ua_agree.html` |
 
 ## Python Server Details
 
