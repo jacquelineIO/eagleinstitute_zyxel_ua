@@ -8,7 +8,7 @@ const isLocal = window.location.hostname === 'localhost' ||
 
 const PYTHON_SERVER_URL = isLocal 
   ? 'http://localhost:8080/append'
-  : 'http://localhost:8080/append';
+  : 'http://192.168.50.19:8080/append';
 
 console.log('Portal running in', isLocal ? 'LOCAL' : 'PRODUCTION', 'mode');
 console.log('Using server:', PYTHON_SERVER_URL);
