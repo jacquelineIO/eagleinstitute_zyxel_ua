@@ -106,18 +106,19 @@ zyxel-ua/
    # During installation, check "Add Python to PATH"
    ```
 
-2. **Create export directory**
+2. **Create required directories**
    ```cmd
    mkdir C:\export
+   mkdir C:\user_agreement\ua\logs
    ```
 
 3. **Copy server files**
-   - Copy the `server` folder to a location like `C:\captive_portal\`
-   - Ensure `captive_portal_server.py` and `run_server.bat` are present
+   - Copy the entire project to `C:\user_agreement\ua\`
+   - Ensure the `server` folder contains `captive_portal_server.py` and `run_server.bat`
 
 4. **Start the server**
    ```cmd
-   cd C:\captive_portal\server
+   cd C:\user_agreement\ua\server
    run_server.bat
    ```
 
@@ -167,13 +168,13 @@ zyxel-ua/
    nssm install CaptivePortal
    
    # Or install via command line
-   nssm install CaptivePortal "C:\Python39\python.exe" "C:\captive_portal\server\captive_portal_server.py"
+   nssm install CaptivePortal "C:\Python39\python.exe" "C:\user_agreement\ua\server\captive_portal_server.py"
    ```
 
    **Step 3: Configure Service Settings (Interactive Mode)**
    - **Application tab:**
      - Path: `C:\Python39\python.exe` (your Python path)
-     - Startup directory: `C:\captive_portal\server\`
+     - Startup directory: `C:\user_agreement\ua\server\`
      - Arguments: `captive_portal_server.py`
    
    - **Details tab:**
@@ -182,8 +183,8 @@ zyxel-ua/
      - Startup type: `Automatic`
    
    - **I/O tab (for logging):**
-     - Output: `C:\captive_portal\logs\service.log`
-     - Error: `C:\captive_portal\logs\error.log`
+     - Output: `C:\user_agreement\ua\logs\service.log`
+     - Error: `C:\user_agreement\ua\logs\error.log`
    
    - **File rotation tab:**
      - Check "Replace existing output and error files"
@@ -223,10 +224,10 @@ zyxel-ua/
    **View Logs:**
    ```cmd
    # Check service logs
-   type C:\captive_portal\logs\service.log
+   type C:\user_agreement\ua\logs\service.log
    
    # Monitor in real-time (PowerShell)
-   Get-Content C:\captive_portal\logs\service.log -Wait
+   Get-Content C:\user_agreement\ua\logs\service.log -Wait
    ```
 
    **Windows Event Viewer:**
