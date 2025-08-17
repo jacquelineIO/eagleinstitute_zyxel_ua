@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head>
+<title>Welcome</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link id="ua_image_id" rel="shortcut icon" href="images/logo.ico" type="image/x-icon">
+<link id="ua_css_id" rel="stylesheet" media="all" type="text/css" href="ua.css?v=241116020708">
+<script language="JavaScript">
+	var mp_idx = "$M";
+	var path = "$Z";
+	var en_data_collect = "$D";
+	var url = window.location;
+	/* Please do not rewrite this function */
+	function css_rewrite(){
+		var css = document.getElementById("ua_css_id");
+		var image = document.getElementById("ua_image_id");
+		var css_filename	= path + "/ua.css?v=241116020708";
+		var image_filename	= path + "/images/logo.ico";
+		if (url.href.indexOf("file:///") == -1){
+			css.href = css_filename;
+			image.href = image_filename;
+		}else{
+			css.href = "ua.css?v=241116020708";
+			image.href = "images/logo.ico";
+		}
+	}
+	css_rewrite();
+	/* Please do not rewrite this function */
+	function initTask(){
+		document.getElementById("uamask").style.display = (mp_idx=="preview") ?  "block" : "none";
+		document.form.action = "/agree.cgi";
+		document.getElementById("mp_idx").value = mp_idx;
+
+		if(en_data_collect=='1'){
+			document.getElementById("field1").className = " error";
+			
+		}
+	}
+	/* close window function */
+	function doClose(){
+		var r=confirm("The window will close.");
+		if (r == true){
+			window.opener=null;
+			window.open("","_self");
+			window.close();
+		}
+	}
+	function sendSubmit(){
+		var field1 = document.getElementById("field1");
+		var emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+		
+		if (field1.required && field1.value === "")
+		{
+			alert("Email is required.");
+		}
+		else if (!emailRegex.test(field1.value))
+		
+		{
+			alert("Please enter a valid email address.");
+		}
+		else
+		{
+			document.form.submit();
+		}
+	}	
+	function chk_fields(fname){
+		if(en_data_collect=='1'){
+			var fvalue = document.getElementById(fname).value;
+			
+			if(fvalue != ''){
+				document.getElementById(fname).className = document.getElementById(fname).className.replace( /(?:^|\s)error(?!\S)/g , '' )
+			}else{
+				document.getElementById(fname).className = " error";
+			}
+		}
+	}
+</script>
+</head>
+<body onload="initTask();">
+<section class="wifi-wrapper">
+    <div class="logo">
+		<img src="https://auix.org/wp-content/uploads/2024/04/eagle-institute.png" alt="Eagle Institute logo">
+	</div>
+    <div class="welcome">
+        <h1>
+            <span>Welcome to</span> The Eagle Institute
+        </h1>
+        <p>Home of the Air University Innovation Accelerator (AUiX)<br> & nexus for the US Air Force, community, nation, and beyond.</p>
+    </div>
+    <div class="login-form">
+        <h2>Log on to Wi-Fi using your email address</h2>
+        <form id="userAgreementForm" action="" name="form" method="post" autocomplete="off">
+            <label for="email">Enter your email:</label>
+            <input id="field1" type="email" name="field1" required  placeholder="Email">
+			<input type="hidden" name="fieldname" value=""/>
+				<input type="hidden" name="agree" value="Agree"/>
+				<input type="hidden" id="mp_idx" name="mp_idx" value=""/>
+            <div class="terms-wrapper">
+                <div class="terms-accordion-1">
+                    <div class="terms-accordion-header">
+                        <p>By accepting, you agree to <span>Terms of Service <i class="delta"></i></span></p>
+                    </div>
+                    <div class="terms-accordion-content">
+                        <p>Welcome to The Eagle Institute!! Before you connect to our Wi-Fi network, please take a moment to read and understand the following terms of use:</p>
+                        <h3>Acceptance of Terms:</h3>
+                        <ul>
+                            <li>By connecting to this public Wi-Fi network, you agree to comply with these terms of use.</li>
+                        </ul>
+                        <h3>Intended Use:</h3>
+                        <ul>
+                            <li>This Wi-Fi service is provided for general internet access. It is not intended for illegal or malicious activities.</li>
+                        </ul>
+                        <h3>Responsible Use:</h3>
+                        <ul>
+                            <li>Users are expected to use the Wi-Fi network responsibly and respect the rights of others. Do not engage in any activities that may disrupt the network or violate the law.</li>
+                        </ul>
+                        <h3>Security:</h3>
+                        <ul>
+                            <li>Exercise caution when transmitting personal or sensitive information over the network, as public Wi-Fi is not inherently secure. We are not responsible for the security of your data.</li>
+                        </ul>
+                        <h3>No Illegal Activities:</h3>
+                        <ul>
+                            <li>Users must not use the Wi-Fi network for any illegal purposes, including but not limited to hacking, unauthorized access, or distribution of copyrighted materials.</li>
+                        </ul>
+                        <h3>Bandwidth Usage:</h3>
+                        <ul>
+                            <li>Please be considerate of others and avoid excessive bandwidth usage, such as large downloads or streaming, which may affect the network's performance for other users.</li>
+                        </ul>
+                        <h3>Termination of Service:</h3>
+                        <ul>
+                            <li>We reserve the right to terminate your access to the Wi-Fi network at any time and for any reason, without prior notice.</li>
+                        </ul>
+                        <h3>Network Monitoring:</h3>
+                        <ul>
+                            <li>We may monitor network usage for security and performance reasons. Your use of the network constitutes consent to such monitoring. <br><br></li>
+                            <li>We may send messages to the registered email address with information about various events taking place at The Eagle Institute and other news from the Air University Innovation Accelerator (AUiX).</li>
+                        </ul>
+                        <h3>Changes to Terms:</h3>
+                        <ul>
+                            <li>These terms of use may be updated or modified at any time without notice. It is your responsibility to review them periodically.</li>
+                        </ul>
+                        <h3>Questions or Concerns:</h3>
+                        <ul>
+                            <li>If you have any questions or concerns about these terms of use, please contact us at <a href="mailto:auix@auix.org" target="_blank">auix@auix.org</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <input id="submitButton" type="submit" class="submit-button" value="Accept and Connect" onclick="sendSubmit();">
+        </form>
+    </div>
+</section>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script>
+    $('.terms-accordion-header').click(function(){
+    $(this).toggleClass('active');
+    $(this).parent().find('.delta').toggleClass('delta-animate');
+    $(this).parent().find('.terms-accordion-content').slideToggle(280);
+    });
+</script>
+<script src="script.js"></script>
+<div id="uamask" class="uamask"></div>
+</body>
+</html>

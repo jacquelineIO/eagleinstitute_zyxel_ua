@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "debug": "^4.3.4",
+    "express": "^4.19.2",
+    "json2csv": "^6.0.0-alpha.2",
+    "request": "^2.88.2",
+    "spread_sheet": "^2.2.1"
+  },
+  "scripts": {
+    "start": "set DEBUG=express:* & node server.js"
+  }
+}
