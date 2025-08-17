@@ -126,12 +126,128 @@ zyxel-ua/
    run_server.bat
    ```
 
-5. **Configure as Windows Service (Optional)**
+5. **Configure as Windows Service (Optional - Recommended for Production)**
+
+   ### Why Run as a Service?
+   
+   **Current Method (run_server.bat):**
+   - ✅ **Pros:**
+     - Simple to start and stop
+     - Easy to see console output for debugging
+     - Quick to test changes
+     - No additional software needed
+   - ❌ **Cons:**
+     - Must manually start after server reboot
+     - Stops if user logs off
+     - Command window must stay open
+     - No automatic restart on crashes
+   
+   **Windows Service Method:**
+   - ✅ **Pros:**
+     - Starts automatically with Windows
+     - Runs in background (no window needed)
+     - Continues running after logoff
+     - Auto-restart on failure
+     - Runs with system privileges
+     - Professional deployment approach
+   - ❌ **Cons:**
+     - Harder to debug (logs go to files)
+     - Requires NSSM installation
+     - More complex to update
+     - Need admin rights to manage
+
+   ### Installing as Windows Service with NSSM
+
+   **Step 1: Download NSSM**
+   - Download from: https://nssm.cc/download
+   - Extract to `C:\nssm\` (or any permanent location)
+   - Add to PATH or use full path to nssm.exe
+
+   **Step 2: Install the Service**
    ```cmd
-   # Install NSSM (Non-Sucking Service Manager)
+   # Open Command Prompt as Administrator
+   cd C:\nssm\win64\  (or win32 for 32-bit)
+   
+   # Install service interactively (recommended)
+   nssm install CaptivePortal
+   
+   # Or install via command line
    nssm install CaptivePortal "C:\Python39\python.exe" "C:\captive_portal\server\captive_portal_server.py"
-   nssm start CaptivePortal
    ```
+
+   **Step 3: Configure Service Settings (Interactive Mode)**
+   - **Application tab:**
+     - Path: `C:\Python39\python.exe` (your Python path)
+     - Startup directory: `C:\captive_portal\server\`
+     - Arguments: `captive_portal_server.py`
+   
+   - **Details tab:**
+     - Display name: `Captive Portal Email Collector`
+     - Description: `Collects emails from Zyxel guest WiFi portal`
+     - Startup type: `Automatic`
+   
+   - **I/O tab (for logging):**
+     - Output: `C:\captive_portal\logs\service.log`
+     - Error: `C:\captive_portal\logs\error.log`
+   
+   - **File rotation tab:**
+     - Check "Replace existing output and error files"
+     - Or configure rotation for log management
+
+   **Step 4: Start and Manage Service**
+   ```cmd
+   # Start the service
+   nssm start CaptivePortal
+   # Or use Windows Services: net start CaptivePortal
+   
+   # Stop the service
+   nssm stop CaptivePortal
+   
+   # Restart the service
+   nssm restart CaptivePortal
+   
+   # Check service status
+   nssm status CaptivePortal
+   
+   # Remove service (if needed)
+   nssm remove CaptivePortal confirm
+   ```
+
+   **Step 5: Configure Auto-Restart on Failure**
+   ```cmd
+   # Set service to restart on failure
+   nssm set CaptivePortal AppExit Default Restart
+   nssm set CaptivePortal AppRestartDelay 5000  # 5 seconds delay
+   
+   # Or use Windows SC command
+   sc failure CaptivePortal reset=0 actions=restart/5000
+   ```
+
+   ### Monitoring the Service
+
+   **View Logs:**
+   ```cmd
+   # Check service logs
+   type C:\captive_portal\logs\service.log
+   
+   # Monitor in real-time (PowerShell)
+   Get-Content C:\captive_portal\logs\service.log -Wait
+   ```
+
+   **Windows Event Viewer:**
+   - Open Event Viewer → Windows Logs → Application
+   - Filter by Source: "CaptivePortal"
+
+   **Service Management GUI:**
+   - Run `services.msc`
+   - Find "Captive Portal Email Collector"
+   - Right-click for Start/Stop/Restart options
+
+   ### Recommendation
+   
+   **For Development/Testing:** Use `run_server.bat` for immediate feedback and debugging
+   
+   **For Production:** Use NSSM Windows Service for reliability and automatic operation
 
 ### Zyxel USG Flex 200 Configuration
 
