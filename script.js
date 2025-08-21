@@ -6,9 +6,11 @@ const isLocal = window.location.hostname === 'localhost' ||
                 window.location.hostname === '127.0.0.1' ||
                 window.location.hostname === '';  // file:// protocol
 
-const PYTHON_SERVER_URL = isLocal 
-  ? 'http://localhost:8080/append'
-  : 'http://192.168.50.19:8080/append';
+const PORT =  8080;
+
+const PYTHON_SERVER_URL = isLocal
+  ? `http://localhost:${PORT}/append`
+  : `http://192.168.50.19:${PORT}/append`;
 
 console.log('Portal running in', isLocal ? 'LOCAL' : 'PRODUCTION', 'mode');
 console.log('Using server:', PYTHON_SERVER_URL);
@@ -28,7 +30,7 @@ window.addEventListener('load', function() {
       console.error('❌ Cannot reach Python server at:', PYTHON_SERVER_URL);
       console.error('Error:', error.message);
       if (isLocal) {
-        alert('Warning: Email collection server not running.\nPlease start the Python server on port 8080.\n\nRun: python3 server/captive_portal_server.py');
+        alert(`Warning: Email collection server not running.\nPlease start the Python server on port ${PORT}.\n\nRun: python3 server/captive_portal_server.py`);
       }
     });
 });
@@ -105,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .catch(error => {
         console.error('Error:', error);
-        alert('Failed to register email. Please check the Python server is running on port 8080.');
+        alert(`Failed to register email. Please check the Python server is running on port ${PORT}.`);
         
         // Re-enable submit button
         submitButton.disabled = false;
