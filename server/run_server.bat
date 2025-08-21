@@ -14,14 +14,14 @@ if %errorlevel% neq 0 (
 )
 
 :: Create export directory if it doesn't exist
-if not exist "C:\export" (
-    echo Creating export directory at C:\export
-    mkdir "C:\export"
+if not exist "C:\exports" (
+    echo Creating export directory at C:\exports
+    mkdir "C:\exports"
 )
 
 :: Start the server
 echo Starting Captive Portal Server on port 8080...
-echo CSV files will be saved to: C:\export\export.csv
+echo CSV files will be saved to: C:\exports\export.csv
 echo.
 echo Press Ctrl+C to stop the server
 echo ========================================

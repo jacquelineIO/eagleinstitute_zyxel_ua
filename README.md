@@ -15,35 +15,35 @@ This application provides a captive portal page for guest WiFi users. When guest
 
 ```
 ┌─────────────────────────────────────────────────┐
-│                Guest Device                      │
-│              (Phone/Laptop/Tablet)                │
+│                Guest Device                     │
+│              (Phone/Laptop/Tablet)              │
 └─────────────────┬───────────────────────────────┘
                   │
                   ▼
 ┌─────────────────────────────────────────────────┐
 │           Zyxel USG Flex 200 Firewall           │
-│                                                  │
+│                                                 │
 │  ┌───────────────────────────────────────┐      │
 │  │   Captive Portal (HTML/CSS/JS)        │      │
-│  │   - ua_agree.html (agreement page)     │      │
+│  │   - ua_agree.html (agreement page)    │      │
 │  │   - ua_welcome.html (success page)    │      │
 │  └───────────────┬───────────────────────┘      │
 └──────────────────┼──────────────────────────────┘
                    │ HTTP POST to :8080/append
                    ▼
 ┌─────────────────────────────────────────────────┐
-│          Windows Server (192.168.50.19)          │
-│                                                  │
+│          Windows Server (192.168.50.19)         │
+│                                                 │
 │  ┌───────────────────────────────────────┐      │
 │  │   Python Server (Port 8080)           │      │
 │  │   - Receives email submissions        │      │
 │  │   - Tracks visit counts               │      │
 │  │   - Writes to CSV file                │      │
 │  └───────────────┬───────────────────────┘      │
-│                  │                               │
-│                  ▼                               │
+│                  │                              │
+│                  ▼                              │
 │  ┌───────────────────────────────────────┐      │
-│  │   C:\export\export.csv                │      │
+│  │   C:\exports\export.csv               │      │
 │  │   Email,Date,Timestamp,Visits         │      │
 │  └───────────────────────────────────────┘      │
 └─────────────────────────────────────────────────┘
@@ -104,7 +104,7 @@ zyxel-ua/
 
 2. **Create required directories**
    ```cmd
-   mkdir C:\export
+   mkdir C:\exports
    mkdir C:\user_agreement\ua\logs
    ```
 
@@ -336,10 +336,10 @@ Open your browser to:
 4. **Check the CSV file** was created:
    ```bash
    # macOS/Linux
-   cat export/export.csv
+   cat exports/export.csv
    
    # Windows
-   type export\export.csv
+   type exports\export.csv
    ```
 
 5. **Verify the API directly**:
@@ -371,7 +371,7 @@ Open your browser to:
 
 | File | Purpose | Location |
 |------|---------|----------|
-| CSV Output | Email data | `./export/export.csv` (local) or `C:\export\export.csv` (production) |
+| CSV Output | Email data | `./exports/export.csv` (local) or `C:\exports\export.csv` (production) |
 | Python Server | API backend | `http://localhost:8080` |
 | HTML Server | Serves portal pages | `http://localhost:8000` |
 | Portal Page | User-facing form | `http://localhost:8000/ua_agree.html` |
@@ -405,12 +405,12 @@ john@example.com,11/16/2024,03:15:22 PM,2
 
 ## Common Issues and Solutions
 
-### Issue 1: Python server can't write to C:\export
+### Issue 1: Python server can't write to C:\exports
 
 **Solution**: Ensure the directory exists and the Python process has write permissions:
 ```cmd
-mkdir C:\export
-icacls C:\export /grant Everyone:F
+mkdir C:\exports
+icacls C:\exports /grant Everyone:F
 ```
 
 ### Issue 2: Captive portal shows but doesn't save emails
@@ -470,7 +470,7 @@ View server logs:
 
 Monitor CSV file:
 ```cmd
-type C:\export\export.csv
+type C:\exports\export.csv
 ```
 
 ## Support

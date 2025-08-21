@@ -28,7 +28,7 @@ python3 captive_portal_server.py
 ### System Design
 - **Captive Portal**: HTML/CSS/JS hosted on Zyxel USG Flex 200
 - **Backend Server**: Python HTTP server on Windows Server (192.168.50.19:8080)
-- **Data Storage**: CSV file at C:\export\export.csv
+- **Data Storage**: CSV file at C:\exports\export.csv
 - **Communication**: Cross-origin POST requests from portal to backend
 
 ### Python Server (`server/captive_portal_server.py`)

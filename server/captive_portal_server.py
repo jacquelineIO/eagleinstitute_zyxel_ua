@@ -10,18 +10,16 @@ import json
 import csv
 from datetime import datetime
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from urllib.parse import urlparse, parse_qs
 import threading
-import time
 
 # Configuration
 PORT = 8080
-CSV_FILE_PATH = r'C:\export\export.csv'  # Windows path
+CSV_FILE_PATH = r'C:\exports\export.csv'  # Windows path
 # For testing on different systems
 if sys.platform == 'darwin':  # macOS
-    CSV_FILE_PATH = './export/export.csv'
+    CSV_FILE_PATH = './exports/export.csv'
 elif sys.platform == 'linux':
-    CSV_FILE_PATH = './export/export.csv'
+    CSV_FILE_PATH = './exports/export.csv'
 
 # Ensure export directory exists
 os.makedirs(os.path.dirname(CSV_FILE_PATH), exist_ok=True)
