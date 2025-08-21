@@ -40,7 +40,7 @@ iisnode.yml
 *.log
 
 # Export data (sensitive)
-export/
+exports/
 *.csv
 export.csv
 
