@@ -39,6 +39,31 @@ window.addEventListener('load', function() {
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('userAgreementForm');
   const submitButton = document.getElementById('submitButton');
+  
+  // Debug button functionality
+  const btn = document.getElementById("debugButton");
+  const out = document.getElementById("debugOutput");
+
+  if (btn) {
+    btn.addEventListener("click", () => {
+      out.textContent = "Testing connection to API...";
+      console.log('[DEBUG] Testing API connection to port 3000...');
+
+      fetch("http://192.168.50.19:3000/health")
+        .then(resp => {
+          console.log('[DEBUG] Response status:', resp.status);
+          return resp.text();
+        })
+        .then(txt => {
+          out.textContent = "✅ Success:\n" + txt;
+          console.log('[DEBUG] API test successful:', txt);
+        })
+        .catch(err => {
+          out.textContent = "❌ Error:\n" + err;
+          console.error("[DEBUG] API test failed:", err);
+        });
+    });
+  }
 
   if (form && submitButton) {
     // Remove the onclick from the button to prevent the original sendSubmit
@@ -48,10 +73,15 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(event) {
       event.preventDefault();
       event.stopPropagation();
+      console.log('[DEBUG] Form submit triggered');
 
       // Get email value
       const emailInput = document.getElementById('field1');
+      console.log('[DEBUG] Email input element:', emailInput);
+      console.log('[DEBUG] Email value:', emailInput ? emailInput.value : 'null');
+      
       if (!emailInput || !emailInput.value) {
+        console.log('[DEBUG] No email provided');
         alert('Please enter your email address');
         return false;
       }
@@ -59,17 +89,21 @@ document.addEventListener('DOMContentLoaded', function() {
       // Validate email format
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
       if (!emailRegex.test(emailInput.value)) {
+        console.log('[DEBUG] Invalid email format:', emailInput.value);
         alert('Please enter a valid email address');
         return false;
       }
 
       const data = { field1: emailInput.value };
+      console.log('[DEBUG] Sending data to server:', data);
+      console.log('[DEBUG] Server URL:', PYTHON_SERVER_URL);
 
       // Show loading state
       submitButton.disabled = true;
       submitButton.value = 'Submitting...';
 
       // Send to Python server
+      console.log('[DEBUG] Starting fetch request...');
       fetch(PYTHON_SERVER_URL, {
         method: 'POST',
         mode: 'cors',
@@ -79,13 +113,14 @@ document.addEventListener('DOMContentLoaded', function() {
         body: JSON.stringify(data)
       })
       .then(response => {
+        console.log('[DEBUG] Server response received:', response.status, response.statusText);
         if (!response.ok) {
           throw new Error('Server responded with ' + response.status);
         }
         return response.text();
       })
       .then(message => {
-        console.log('Success:', message);
+        console.log('[DEBUG] Success message from server:', message);
         
         if (isLocal) {
           // Local testing - just show success and reset
@@ -106,8 +141,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       })
       .catch(error => {
-        console.error('Error:', error);
-        alert(`Failed to register email. Please check the Python server is running on port ${PORT}.`);
+        console.error('[DEBUG] Fetch error:', error);
+        console.error('[DEBUG] Error stack:', error.stack);
+        alert(`Failed to register email. Please check the Python server is running on port ${PORT}.\n\nError: ${error.message}`);
         
         // Re-enable submit button
         submitButton.disabled = false;

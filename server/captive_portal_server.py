@@ -34,25 +34,34 @@ class CaptivePortalHandler(BaseHTTPRequestHandler):
 
     def do_OPTIONS(self):
         """Handle preflight CORS requests"""
+        print(f"[DEBUG] OPTIONS request from {self.client_address[0]} for {self.path}")
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
+        print(f"[DEBUG] OPTIONS response sent with CORS headers")
 
     def do_POST(self):
         """Handle POST requests to /append endpoint"""
+        print(f"[DEBUG] POST request from {self.client_address[0]} to {self.path}")
+        print(f"[DEBUG] Headers: {dict(self.headers)}")
+        
         if self.path == '/append':
             try:
                 # Read request body
                 content_length = int(self.headers['Content-Length'])
                 post_data = self.rfile.read(content_length)
+                print(f"[DEBUG] Raw POST data: {post_data}")
 
                 # Parse JSON data
                 data = json.loads(post_data.decode('utf-8'))
+                print(f"[DEBUG] Parsed JSON data: {data}")
                 email = data.get('field1', '').strip()
+                print(f"[DEBUG] Extracted email: {email}")
 
                 if not email:
+                    print(f"[ERROR] No email provided in request")
                     self.send_error(400, 'Email address required')
                     return
 
@@ -79,6 +88,7 @@ class CaptivePortalHandler(BaseHTTPRequestHandler):
 
                 # Write to CSV file
                 file_exists = os.path.isfile(CSV_FILE_PATH)
+                print(f"[DEBUG] CSV file exists: {file_exists}, Path: {CSV_FILE_PATH}")
 
                 with open(CSV_FILE_PATH, 'a', newline='', encoding='utf-8') as csvfile:
                     fieldnames = ['Email Address', 'Date', 'Timestamp', 'Number of Visits']
@@ -96,20 +106,27 @@ class CaptivePortalHandler(BaseHTTPRequestHandler):
                 self.send_header('Access-Control-Allow-Origin', '*')
                 self.end_headers()
                 self.wfile.write(b'Data appended successfully')
+                print(f"[DEBUG] Success response sent")
 
                 # Log to console
-                print(f"[{datetime.now()}] Email collected: {email} (Visit #{visit_count})")
+                print(f"[SUCCESS] {datetime.now()} - Email collected: {email} (Visit #{visit_count})")
 
-            except json.JSONDecodeError:
+            except json.JSONDecodeError as e:
+                print(f"[ERROR] JSON decode error: {e}")
                 self.send_error(400, 'Invalid JSON data')
             except Exception as e:
-                print(f"Error processing request: {e}")
+                print(f"[ERROR] Processing request: {e}")
+                import traceback
+                traceback.print_exc()
                 self.send_error(500, f'Server error: {str(e)}')
         else:
+            print(f"[WARNING] 404 - Path not found: {self.path}")
             self.send_error(404, 'Not found')
 
     def do_GET(self):
         """Handle GET requests for testing"""
+        print(f"[DEBUG] GET request from {self.client_address[0]} to {self.path}")
+        
         if self.path == '/':
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')
@@ -127,6 +144,7 @@ class CaptivePortalHandler(BaseHTTPRequestHandler):
             '''.format(CSV_FILE_PATH)
             self.wfile.write(html.encode())
         elif self.path == '/health':
+            print(f"[DEBUG] Health check requested")
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
@@ -170,10 +188,13 @@ def run_server():
     server_address = ('', PORT)
     httpd = HTTPServer(server_address, CaptivePortalHandler)
 
-    print(f"Captive Portal Server starting on port {PORT}")
-    print(f"CSV file will be saved to: {CSV_FILE_PATH}")
-    print(f"Server ready at http://localhost:{PORT}")
-    print("Press Ctrl+C to stop the server")
+    print("="*60)
+    print(f"[INFO] Captive Portal Server starting on port {PORT}")
+    print(f"[INFO] CSV file will be saved to: {CSV_FILE_PATH}")
+    print(f"[INFO] Server ready at http://localhost:{PORT}")
+    print(f"[INFO] Debug logging is ENABLED")
+    print("[INFO] Press Ctrl+C to stop the server")
+    print("="*60)
 
     try:
         httpd.serve_forever()
