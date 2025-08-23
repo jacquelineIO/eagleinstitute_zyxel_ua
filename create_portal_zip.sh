@@ -34,6 +34,7 @@ required_dirs=(
     "images"
     "images_m"
     "js"
+    "lib"
 )
 
 for file in "${required_files[@]}"; do
@@ -64,19 +65,38 @@ echo "- JavaScript (script.js)"
 echo "- CSS files (ua.css, css_m/)"
 echo "- Images (images/, images_m/)"
 echo "- JavaScript libraries (js/)"
+echo "- Library files (lib/)"
 echo
 
 # Use zip command (available on macOS and most Linux)
-zip -r zyxel_captive_portal.zip \
-    ua_agree.html \
-    ua_welcome.html \
-    script.js \
-    ua.css \
-    css_m/ \
-    images/ \
-    images_m/ \
-    js/ \
-    -x "*.DS_Store" "*Thumbs.db" "*.backup" "*~"
+# Include the ReadMe file if it exists (was in old working ZIP)
+if [ -f "Internal_User_Agreement_ReadMe.txt" ]; then
+    echo "- Including Internal_User_Agreement_ReadMe.txt"
+    zip -r zyxel_captive_portal.zip \
+        ua_agree.html \
+        ua_welcome.html \
+        script.js \
+        ua.css \
+        css_m/ \
+        images/ \
+        images_m/ \
+        js/ \
+        lib/ \
+        Internal_User_Agreement_ReadMe.txt \
+        -x "*.DS_Store" "*Thumbs.db" "*.backup" "*~" "lib/iisnode/*"
+else
+    zip -r zyxel_captive_portal.zip \
+        ua_agree.html \
+        ua_welcome.html \
+        script.js \
+        ua.css \
+        css_m/ \
+        images/ \
+        images_m/ \
+        js/ \
+        lib/ \
+        -x "*.DS_Store" "*Thumbs.db" "*.backup" "*~" "lib/iisnode/*"
+fi
 
 if [ $? -ne 0 ]; then
     echo "❌ ERROR: Failed to create ZIP file"
