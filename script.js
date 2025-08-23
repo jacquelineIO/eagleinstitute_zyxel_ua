@@ -47,9 +47,13 @@ document.addEventListener('DOMContentLoaded', function() {
   if (btn) {
     btn.addEventListener("click", () => {
       out.textContent = "Testing connection to API...";
-      console.log('[DEBUG] Testing API connection to port 3000...');
+      console.log(`[DEBUG] Testing API connection to port ${PORT}...`);
+      
+      // Use the same URL logic as the main form
+      const healthUrl = PYTHON_SERVER_URL.replace('/append', '/health');
+      console.log('[DEBUG] Testing URL:', healthUrl);
 
-      fetch("http://192.168.50.19:3000/health")
+      fetch(healthUrl)
         .then(resp => {
           console.log('[DEBUG] Response status:', resp.status);
           return resp.text();
