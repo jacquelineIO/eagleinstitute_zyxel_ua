@@ -38,6 +38,15 @@
 		}
 	}
 	css_rewrite();
+	
+	/* Rewrite image paths to use $Z path */
+	function img_rewrite(){
+		var logo = document.getElementById("logo-img");
+		if (logo && url.href.indexOf("file:///") == -1 && path !== ""){
+			logo.src = path + "/images/eagle-institute.png";
+		}
+	}
+	
 	/* Please do not rewrite this function */
 	function initTask(){
 		document.getElementById("uamask").style.display = (mp_idx=="preview") ?  "block" : "none";
@@ -89,10 +98,13 @@
 	}
 </script>
 </head>
-<body onload="initTask();">
+<body onload="initTask(); img_rewrite();">
 <section class="wifi-wrapper">
     <div class="logo">
-		<img src="images/eagle-institute.png" alt="Eagle Institute logo">
+		<!-- External URL (always works but requires internet) -->
+		<!-- <img src="https://auix.org/wp-content/uploads/2024/04/eagle-institute.png" alt="Eagle Institute logo"> -->
+		<!-- Local image (will be rewritten with $Z path) -->
+		<img id="logo-img" src="images/eagle-institute.png" alt="Eagle Institute logo">
 	</div>
     <div class="welcome">
         <h1>
