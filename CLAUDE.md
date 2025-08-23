@@ -6,20 +6,45 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Zyxel USG Flex 200 captive portal application for guest WiFi that collects email addresses. The application runs on a Zyxel firewall and communicates with a Python backend server on Windows Server to store email data in CSV format.
 
+### Repository Structure
+- **Main project**: Custom captive portal implementation with email collection
+- **`default_ua/`**: Zyxel's example captive portal template (reference implementation)
+
 ## Development Commands
 
-### Python Server (Primary)
+### Python Server
 ```bash
-# Windows
+# Windows - Port 8080 (production)
 cd server
 python captive_portal_server.py
+# Or: run_server_port_8080.bat
 
-# Or use batch file
-run_server.bat
+# Windows - Port 3000 (alternative)
+run_server_port_3000.bat
 
 # macOS/Linux
 cd server
-python3 captive_portal_server.py
+python3 captive_portal_server.py [port]
+```
+
+### Portal Deployment
+```bash
+# Create deployment ZIP (macOS/Linux)
+./create_portal_zip.sh
+
+# Create deployment ZIP (Windows)
+create_portal_zip.bat
+
+# The ZIP includes: HTML files, script.js, CSS, images, JS libraries
+```
+
+### Local Testing
+```bash
+# Run local test server (Python)
+python3 run_local.py
+
+# Windows batch
+run_local.bat
 ```
 
 
@@ -80,6 +105,20 @@ python3 -m http.server 8000
 # Browse to http://localhost:8000/ua_agree.html
 ```
 
-### Important Files to Modify
-- `script.js`: Auto-detects environment (localhost vs production IP)
-- `captive_portal_server.py`: Auto-detects platform for CSV path (Mac vs Windows)
+## Important Configuration Points
+
+### Environment Detection
+- **`script.js`**: Auto-detects environment (localhost vs production IP 192.168.50.19)
+  - Port configuration: Default 8080, configurable via PORT constant
+  - Health check on page load to verify server connectivity
+  
+### Platform Detection  
+- **`server/captive_portal_server.py`**: Auto-detects platform for CSV path
+  - Windows: `C:\exports\export.csv`
+  - macOS/Linux: `./exports/export.csv`
+  - Port configurable via command line argument
+
+### Zyxel Integration
+- Portal files must be packaged as ZIP for upload to USG Flex 200
+- Form submission endpoint: `/agree.cgi` (Zyxel's authentication handler)
+- Template variables in HTML: `$M` (mp_idx), `$Z` (path), `$D` (en_data_collect)
